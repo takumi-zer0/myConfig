@@ -19,10 +19,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
+
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -67,21 +67,21 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.tile,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
+     awful.layout.suit.tile,
+   --  awful.layout.suit.tile.left,
+   --  awful.layout.suit.tile.bottom,
+   --  awful.layout.suit.tile.top,
+     awful.layout.suit.fair,
+     awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
+     awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
+    awful.layout.suit.corner.nw,
+     awful.layout.suit.corner.ne,
+     awful.layout.suit.corner.sw,
+     awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -139,7 +139,8 @@ local taglist_buttons = gears.table.join(
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, function(t)
                                               if client.focus then
-                                                  client.focus:toggle_tag(t)
+                                                  -- client.focus:toggle_tag(t)
+            				       awful.mouse.client.resize(c)
                                               end
                                           end),
                     awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
@@ -230,6 +231,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+		awful.widget.watch('bash -c "free -h | awk \'/^Mem/ {print $3 $2} \'"' ,5),
 			require("battery-widget"){},
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
@@ -243,17 +245,19 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
+    -- awful.button({ }, 4, awful.tag.viewnext),
+    -- awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
    -- Volume Keys
+   awful.key({modkey, }, "a", function ()
+     awful.spawn.with_shell("anki", false) end),
    awful.key({modkey, }, "o", function ()
-     awful.spawn.with_shell("/home/zer0/Downloads/Obsidian-0.13.23.AppImage", false) end),
+     awful.spawn.with_shell("/usr/bin/obsidian", false) end),
    awful.key({modkey, }, "i", function ()
      awful.spawn.with_shell("google-chrome", false) end),
    awful.key({}, "XF86AudioLowerVolume", function ()
@@ -272,13 +276,9 @@ globalkeys = gears.table.join(
     -- Brightness
 
     awful.key({modkey, }, "F5", function ()
-        awful.util.spawn("xrandr --output eDP-1 --brightness 0.5") end),
+        awful.util.spawn("xbacklight -dec 10") end),
     awful.key({modkey, }, "F6", function ()
-        awful.util.spawn("xrandr --output eDP-1 --brightness 0.7") end),
-    awful.key({modkey, }, "F7", function ()
-        awful.util.spawn("xrandr --output eDP-1 --brightness 0.8") end),
-    awful.key({modkey, }, "F8", function ()
-        awful.util.spawn("xrandr --output eDP-1 --brightness 1.0") end),
+        awful.util.spawn("xbacklight -inc 10") end),
     awful.key({ }, "XF86MonBrightnessUp", function ()
         awful.util.spawn("xrandr --output eDP-1 --brightness 1.0") end),
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -330,8 +330,8 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "0", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+      --        {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -501,6 +501,7 @@ awful.rules.rules = {
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
+					 size_hints_honor = false,
                      raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons,
@@ -541,13 +542,17 @@ awful.rules.rules = {
       }, properties = { floating = true }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
+    { rule_any = {type = { "dialog", "normal" }
       }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+     { rule = { class = "obsidian" },
+       properties = { screen = 1, tag = "9" } },
+     { rule = { class = "notion-snap" },
+       properties = { screen = 1, tag = "8" } },
+     { rule = { class = "onenote-desktop" },
+       properties = { screen = 1, tag = "7" } },
 }
 -- }}}
 
@@ -566,6 +571,7 @@ client.connect_signal("manage", function (c)
     end
 end)
 
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
@@ -579,6 +585,7 @@ client.connect_signal("request::titlebars", function(c)
             awful.mouse.client.resize(c)
         end)
     )
+
 
     awful.titlebar(c) : setup {
         { -- Left
@@ -615,9 +622,13 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+awful.key({ }, "Print", function () awful.util.spawn("ksnapshot") end)
+
 awful.spawn.with_shell("setxkbmap -option caps:ctrl_modifier")
 awful.spawn.with_shell("compton")
-beautiful.useless_gap = 1
+beautiful.useless_gap = 5
 awful.spawn.with_shell("xmodmap ~/.Xmodmap")
+awful.spawn.with_shell('xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1')
 awful.spawn.with_shell("feh --bg-fill ~/Downloads/backgrounds/background.jpg")
 gears.wallpaper.maximized("~/Downloads/backgrounds/background2.jpg", s)
+
