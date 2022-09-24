@@ -3,6 +3,8 @@
 # for examples
 shopt -s autocd
 
+alias ide="cd ~/code/idepython && npm run dev"
+
 alias ..="cd .."
 alias co="cd ~/code && ls -1"
 
