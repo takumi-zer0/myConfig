@@ -4,9 +4,11 @@
 shopt -s autocd
 
 alias ide="cd ~/code/idepython && npm run dev"
+alias heroku="~/Downloads/heroku/bin/heroku"
 
 alias ..="cd .."
 alias co="cd ~/code && ls -1"
+alias ctf="cd ~/hack/ctf && ls -1"
 
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
 alias vim="~/nvim/bin/nvim"

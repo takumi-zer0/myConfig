@@ -114,7 +114,7 @@ else
 end
 
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_i,
                                      menu = mymainmenu })
 
 -- Menubar configuration
@@ -189,7 +189,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -216,7 +216,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -428,7 +428,7 @@ clientkeys = gears.table.join(
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 1, 12 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
@@ -624,11 +624,15 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.key({ }, "Print", function () awful.util.spawn("ksnapshot") end)
 
+client.connect_signal("manage", function (c)
+    c.shape = gears.shape.rounded_rect
+end)
+
 awful.spawn.with_shell("setxkbmap -option caps:ctrl_modifier")
 awful.spawn.with_shell("compton")
-beautiful.useless_gap = 5
+beautiful.useless_gap = 3
 awful.spawn.with_shell("xmodmap ~/.Xmodmap")
 awful.spawn.with_shell('xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1')
 awful.spawn.with_shell("feh --bg-fill ~/Downloads/backgrounds/background.jpg")
-gears.wallpaper.maximized("~/Downloads/backgrounds/background2.jpg", s)
+gears.wallpaper.maximized("~/Downloads/backgrounds/background.jpg", s)
 
