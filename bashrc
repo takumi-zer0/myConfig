@@ -5,9 +5,11 @@ shopt -s autocd
 
 alias ide="cd ~/code/idepython && npm run dev"
 alias heroku="~/Downloads/heroku/bin/heroku"
+alias t='cd $( find ~/code -maxdepth 1 -type d | fzf ) && ~/tmuxer.sh'
+alias tkill='tmux kill-server'
 
 alias ..="cd .."
-alias co="cd ~/code && ls -1"
+alias co="cd ~/code && ls -t1r | tail -12"
 alias ctf="cd ~/hack/ctf && ls -1"
 
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
@@ -20,6 +22,16 @@ alias gcs='git commit -m "go"'
 alias gp="git push"
 alias nd="npm run dev"
 alias temp="git clone git@github.com:takumi-zer0/srctemp.git ."
+
+# create new tmux session with name
+set FZF_ALT_C_COMMAND='tmux list-sessions | cut -d: -f1'
+
+function tmuxSessionSwitch() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | fzfDown)
+  tmux switch-client -t "$session"
+}
+alias af='tmuxSessionSwitch'
 
 # If not running interactively, don't do anything
 case $- in
@@ -136,3 +148,5 @@ if ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[[ -e "$HOME/.fzf-extras/fzf-extras.sh" ]] \
+  && source "$HOME/.fzf-extras/fzf-extras.sh"

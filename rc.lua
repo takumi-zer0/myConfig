@@ -186,7 +186,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    set_wallpaper(s)
+    -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C" }, s, awful.layout.layouts[1])
@@ -216,7 +216,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = 30 })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -253,6 +253,8 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+   awful.key({modkey, }, "c", function ()
+     awful.spawn.with_shell("scrot -s |sleep 7; nautilus /home/zer0", false) end),
    -- Volume Keys
    awful.key({modkey, }, "a", function ()
      awful.spawn.with_shell("anki", false) end),
@@ -634,5 +636,4 @@ beautiful.useless_gap = 3
 awful.spawn.with_shell("xmodmap ~/.Xmodmap")
 awful.spawn.with_shell('xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1')
 awful.spawn.with_shell("feh --bg-fill ~/Downloads/backgrounds/background.jpg")
-gears.wallpaper.maximized("~/Downloads/backgrounds/background.jpg", s)
 

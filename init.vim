@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'nvim-lua/plenary.nvim' " don't forget to add this one if you don't have it yet!
+Plug 'pantharshit00/vim-prisma'
+Plug 'puremourning/vimspector'
 Plug 'ThePrimeagen/harpoon'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'vim-airline/vim-airline'
@@ -42,8 +44,12 @@ set mouse=a
 set nowrap           " do not automatically wrap on load
 set formatoptions-=t " do not automatically wrap text when typing
 
+" atcoder
+nnoremap <C-e> :w<CR>:!python3 % < input.txt<CR>
+tnoremap <tab> <C-\><C-n><tab>
+
 " harpoon
-nnoremap <C-e> :lua require('harpoon.ui').toggle_quick_menu()<CR>
+"nnoremap <C-e> :lua require('harpoon.ui').toggle_quick_menu()<CR>
 nnoremap <leader>0 :lua require('harpoon.mark').add_file()<CR>
 nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
 nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
@@ -52,8 +58,21 @@ nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 nnoremap <leader>5 :lua require("harpoon.ui").nav_file(5)<CR>
 nnoremap <leader>6 :lua require("harpoon.ui").nav_file(6)<CR>
 
+" vimspector
+nmap <leader>vl :call vimspector#Launch()<CR>
+nmap <leader>vr :VimspectorReset<CR>
+nmap <leader>ve :VimspectorEval
+nmap <leader>vw :VimspectorWatch
+nmap <leader>vo :VimspectorShowOutput
+nmap <leader>vi <Plug>VimspectorBalloonEval
+xmap <leader>vi <Plug>VimspectorBalloonEval
+let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-go', 'CodeLLDB', 'vscode-node-debug2' ]
+
 nnoremap <C-n> :Telescope grep_string<CR>
 nnoremap <C-g> :Telescope live_grep<CR>
+let g:vimspector_enable_mappings = 'HUMAN'
+
+
 
 " nnoremap <silent>n `
 
@@ -178,8 +197,7 @@ set clipboard+=unnamedplus
 nnoremap <leader>t :NERDTreeToggle<CR>
 " autocmd BufEnter * lcd %:p:h
 
-nnoremap <C-j> :T<CR>
-inoremap <C-j> :T<CR>
+nnoremap <leader>m :T<CR>
 
 set guifont=Monospace:h2
 
@@ -187,7 +205,7 @@ set guifont=Monospace:h2
 tnoremap <Esc> <C-\><C-n>
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
-tnoremap <C-j> :T<CR>
+tnoremap <leader>m :T<CR>
 
 function s:save_terminal_mode()
   let b:term_mode = mode()
@@ -206,9 +224,9 @@ augroup restore_terminal_mode
   autocmd BufEnter term://* call s:restore_terminal_mode()
 augroup END
 
-map <F9> :w <CR>  :!clear && gcc -Wall -Werror -Wextra % && ./a.out<CR>
-map <F10> :w <CR>  :!clear && gcc -Wall -Werror -Wextra *.c && ./a.out<CR>
-map <F11> :w <CR> :!clear && norminette -R CheckForbiddenSourceHeader % <CR>
+" map <F9> :w <CR>  :!clear && gcc -Wall -Werror -Wextra % && ./a.out<CR>
+" map <F10> :w <CR>  :!clear && gcc -Wall -Werror -Wextra *.c && ./a.out<CR>
+" map <F11> :w <CR> :!clear && norminette -R CheckForbiddenSourceHeader % <CR>
 set noerrorbells
 highlight CocErrorSign ctermfg=15 ctermbg=196
 highlight CocWarningSign ctermfg=0 ctermbg=172
@@ -461,6 +479,12 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 nnoremap <C-F> <cmd>Telescope find_files<CR>
 nnoremap <C-b> <cmd>Telescope oldfiles<CR>
 tnoremap <silent> <C-[><C-[> <C-\><C-n>
+
+noremap <silent> k gk
+noremap <silent> j gj
+
+nnoremap <silent> m :!manim -pql % output <CR>
+
 
 vnoremap <C-/> gc
 
