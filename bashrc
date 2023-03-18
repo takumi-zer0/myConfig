@@ -3,7 +3,15 @@
 # for examples
 shopt -s autocd
 
+xset r rate 200 30
+
+alias ve="source ./venv/bin/activate"
+
+alias yb="yarn build"
+alias yd="yarn dev"
+
 alias ide="cd ~/code/idepython && npm run dev"
+alias pkcrack="/usr/bin/pkcrack/bin/pkcrack"
 alias heroku="~/Downloads/heroku/bin/heroku"
 alias t='cd $( find ~/code -maxdepth 1 -type d | fzf ) && ~/tmuxer.sh'
 alias tkill='tmux kill-server'
@@ -13,7 +21,7 @@ alias co="cd ~/code && ls -t1r | tail -12"
 alias ctf="cd ~/hack/ctf && ls -1"
 
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
-alias vim="~/nvim/bin/nvim"
+alias vim="~/nvim.appimage"
 alias python="python3"
 alias adminTemp="git clone git@github.com:takumi-zer0/adminTemp.git ."
 alias ga="git add ."
