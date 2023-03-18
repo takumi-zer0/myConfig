@@ -1,0 +1,14 @@
+{
+    "coc.preferences.formatOnSave": [
+        "css",
+        "markdown",
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact"
+    ],
+    "suggest.noselect": false,
+    "prettier.enable": true,
+    "prettier.useTabs": false,
+    "prettier.tabWidth": 4
+}
