@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Get the pane's pid
+pane_pid=$(tmux display-message -p "#{pane_pid}")
+
+# Get the pane's id
+pane_id=$(tmux display-message -p "#{pane_id}")
+
+# Check if there is a Vim or other specified process running in the pane
+if ps -o cmd= -p $(pgrep -P $pane_pid) | grep -qE 'vim|docker|nvim|node'; then
+    tmux split-window -v "read -p 'A potentially unsafe process is running. Are you sure you want to kill this pane? (y/n) ' -n 1 -r && echo && if [[ \$REPLY =~ ^[Yy]$ ]]; then tmux kill-pane -t $pane_id; fi; tmux kill-pane"
+else
+    tmux kill-pane -t $pane_id
+fi
+
