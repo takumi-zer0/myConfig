@@ -21,7 +21,7 @@ alias co="cd ~/code && ls -t1r | tail -12"
 alias ctf="cd ~/hack/ctf && ls -1"
 
 alias fzf-="export FZF_DEFAULT_COMMAND='fd . $HOME'"
-alias vim="~/nvim.appimage"
+# alias vim="~/nvim.appimage"
 alias python="python3"
 alias adminTemp="git clone git@github.com:takumi-zer0/adminTemp.git ."
 alias ga="git add ."
