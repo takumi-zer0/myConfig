@@ -3,7 +3,8 @@
 # for examples
 shopt -s autocd
 
-xset r rate 200 30
+# ubuntu
+# xset r rate 200 30
 
 alias ve="source ./venv/bin/activate"
 
